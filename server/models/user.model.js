@@ -39,8 +39,8 @@ userSchema.methods.generateAuthToken = (user) => {
   return token;
 }
 
-userSchema.methods.comparePassword = async (password) => {
-  return bcryptjs.compareSync(password, this.password)
+userSchema.methods.comparePassword = async (user, password) => {
+  return bcryptjs.compareSync(password, user.password)
 }
 
 export const hashPassword = async (password) => {
