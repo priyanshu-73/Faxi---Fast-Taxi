@@ -239,3 +239,114 @@ The request body should be a JSON object with the following fields:
 - Ensure that the `Content-Type` header is set to `application/json` in the request.
 - The server verifies the credentials and generates a JWT token upon successful authentication.
 - Use the returned token for accessing protected endpoints.
+
+---
+
+# API Documentation: `GET /api/users/profile`
+
+## **Endpoint Description**
+The `/api/users/profile` endpoint retrieves the profile details of the currently authenticated user.
+
+---
+
+## **Request**
+
+### **HTTP Method**
+`GET`
+
+### **URL**
+`/api/users/profile`
+
+### **Headers**
+- `Authorization`: `Bearer <JWT_TOKEN>`
+- `Cookie`: `token=<JWT_TOKEN>` (alternative)
+
+---
+
+## **Response**
+
+### **Successful Response**
+- **Status Code:** `200 OK`
+- **Description:** Returns the user's profile details.
+- **Response Body:**
+
+```json
+{
+  "_id": "<USER_ID>",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "createdAt": "<TIMESTAMP>",
+  "updatedAt": "<TIMESTAMP>"
+}
+```
+
+### **Error Responses**
+
+#### Unauthorized Access
+- **Status Code:** `401 Unauthorized`
+- **Description:** Token is missing, invalid, or blacklisted.
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+# API Documentation: `GET /api/users/logout`
+
+## **Endpoint Description**
+The `/api/users/logout` endpoint logs out the currently authenticated user by clearing their session token and blacklisting it to prevent reuse.
+
+---
+
+## **Request**
+
+### **HTTP Method**
+`GET`
+
+### **URL**
+`/api/users/logout`
+
+### **Headers**
+- `Authorization`: `Bearer <JWT_TOKEN>`
+- `Cookie`: `token=<JWT_TOKEN>` (alternative)
+
+---
+
+## **Response**
+
+### **Successful Response**
+- **Status Code:** `200 OK`
+- **Description:** User logged out successfully.
+- **Response Body:**
+
+```json
+{
+  "message": "Logged out Successfully"
+}
+```
+
+### **Error Responses**
+
+#### Unauthorized Access
+- **Status Code:** `401 Unauthorized`
+- **Description:** Token is missing, invalid, or blacklisted.
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## **Notes**
+- Token is blacklisted upon logout to prevent reuse.
+- Subsequent requests using the same token will return an `Unauthorized` error.
